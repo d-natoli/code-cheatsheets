@@ -1,0 +1,171 @@
+Links
+--------------------------------------------------------------------------------------
+developers.whatwg.org - HTML5 spec for developers
+www.html5rocks.com - made by google, written by chrome devs, articles
+caniuse.com - shows which features are implemented in browser and work arounds
+html5doctor.com - has flow chart to work out which tag to use
+modernizr.com - library for polyfills/fixes
+github.com/Modernizr wiki - has a list of all html5 cross browser polyfills and html fallbacks.
+www.miketaylr.com/code/input-type-attr.html - HTML5 inputs and attribute support
+html5boilerplate.com - scripts
+www.jeremyselier.com/s/demo/speech_attribute.html - speech attribute demo
+currency.io - example of local storage, stores all currency rates
+westcoastlogic.com/lawnchair - json storage for mobile apps
+videos-origin.mozilla.org/serv/blizzard/audio-slideshow - audio visualization demo
+--------------------------------------------------------------------------------------
+
+Semantics
+--------------------------------------------------------------------------------------
+recommended code style - <img src="image.png" alt="">
+
+doctype tag - <!DOCTYPE html>
+
+content type tag - <meta charset="utf-8"> - should be as high up as you can, before head tags, etc.
+
+stylesheets - dropped type attribute - <link rel="stylesheet" href="app.css">
+
+scripts - again dropped type attribute - <script src="/path/to/script.js"></script>
+        - run a script asap - <script src="/path/to/script.js" async></script>
+        - download after page has finished <script src="/path/to/script.js" defer></script>
+
+anchor - <a> tags work as block level elements so you can now wrap mutliple elements with an anchor tag.
+---------------------------------------------------------------------------------------
+
+New tags
+---------------------------------------------------------------------------------------
+for ie < 9 - shim/shiv - script -  using document.createElement, tells IE to create an element and allocate memory for it.
+
+<!--[if lte IE9]>
+   <script src="scripts/shiv.js></script>
+<!--[endif]>
+
+modernizr.com - modernizr includes shiv - detects what features your browser supports, adds classes to the html tag specifying whether ur browser implements it.
+
+reset these elements otherwise they display inline - section, article, hearder, footer, aside, nav, menu { display:block; }
+
+<article> tag - use where you could take the content out of the context and it still makes sense. Must have a <header>. Can have a <footer>.
+
+<header> tag - block level element to wrap around header tags h1-h6. An article should have a header. Can be used for root, <article>, <section> elements.
+
+<footer> tag - block level element to wrap around footer text. Used same as header.
+
+<time> tag - is invalid if you don't have a machine readable version of the time.
+
+<aside> tag - content that is related to the parent but isn't essential. Should be used inside an <article>.
+
+<figure> tag - represents anything visual - images, video, canvas.
+
+<figcaption> tag - caption for <figure>
+
+<nav> tag - used to section of navigation for around the site. Recommended to use <a> tags instead of <li> tags unless required.
+
+<menu> tag - used to section a bunch of links that aren't related to navigation - options for user to select.
+
+<section> tag - used to section of parts of the page.  Should have a <header> - if not probably use a <div>.
+
+<mark> tag - used in the place of span to highlight words/parts of text.
+
+<meter> tag - used for measurements.
+
+<progress> tag - 
+---------------------------------------------------------------------------------------
+
+Forms
+---------------------------------------------------------------------------------------
+new input types/attributes
+
+search and placeholder  - <input type="search" placeholder="Search">. Has auto clear.
+email, tel, url - used more for aiding with input like keyboard on an iphone
+file - now allows multiple files - <input type="file" multiple>
+autofocus - autofocuses input when page loads
+range - gives a slider input - <input name="myrange" type="range" max="100" min="0">
+required - forces value to be in input before the form is submitted <input type="text" required>
+pattern - allows regex to specify format <input type="tel" pattern="\d{10}">
+speech - <input id="input" speech> or <input id="input" x-web-kit-speech onwebkitspeechchange="">
+---------------------------------------------------------------------------------------
+
+Selectors
+---------------------------------------------------------------------------------------
+Pseudo-selectors - check out Ryan Seddon's List-A-Part article.
+document.querySelector("input") - one element
+document.querySelectorAll("input") - an array of elements
+zepto for mobile selectors
+---------------------------------------------------------------------------------------
+
+Client side storage
+---------------------------------------------------------------------------------------
+local - key/value pair. Stays until the user clears the cache. Calls to_string on all values pushed into db.  You can store objects by using JSON.stringify(). Stores based on sub-domain.
+
+   localStorage.setItem("name", "dane") -> undefined
+   localStorage.getItem("name")  -> "dane"
+
+   json = JSON.stringify({"name": "Dane", "profession":"zoo keeper"})
+   localStorage.SetItem("user", json)
+   JSON.parse(localStorage.getItem("user")) //converts back to object
+
+   localStorage["name"] = "Dane"
+   localStorage["name"] -> "Dane"
+   localStorage.removeItem("name")
+   localStorage.clear()
+
+Can use the window event offline/online to determine whether to update local storage.
+
+session - key/value pair. Disappears after browser is closed. Same examples as local storage except use sessionStorage.
+---------------------------------------------------------------------------------------
+
+Application Cache
+---------------------------------------------------------------------------------------
+You have a manifest where you store the file paths of the files you want offline.
+
+<html manifest="/offline/manifest">
+
+Content-Type: text/cache-manifest
+
+manifest file format:
+----------------
+CACHE MANIFEST
+
+/
+/css/master.css
+/js/
+
+NETWORK:
+/people
+
+FALLBACK:
+/ /offline.html
+---------------
+Browser won't update cache unless manifest file is updated.  Put a cache-buster into manifest file.
+In chrome - chrome://appcache-internals - shows you all the application cache storage.
+Once manifest is downloaded, users need to refresh the page to get changes.
+---------------------------------------------------------------------------------------
+
+Audo & Video
+---------------------------------------------------------------------------------------
+Container - contains meta - chapters, title, video - tracks, audio - multiple tracks.
+Two encoding h264 and webm.
+
+<video src="video.mp4" width="640" height="480"></video>
+attributes - controls, autoplay
+
+<video width="640" height="480">
+   <source src="movie.mp4" type="video/mp4; codecs='avc1.42E01E, mp4a.40.2'">
+   <source src="movie.webm" type="video/wem; codecs='vp8,vorbis'">
+   <object>
+      <!-- nasty flash object -->
+   </object>
+</video>
+
+Browsers support different video formats.
+
+<audio controls autoplay autobuffer loop>
+   <source src="sound.mp3">
+   <source src="sound.ogg">
+   <object>
+      <!-- nasty flash object -->
+   </object>
+</audio>
+
+Firefox - ogg, wav.  Safari - mp3, wav. Opera - wav. Google - ogg, mp3.
+---------------------------------------------------------------------------------------
+
